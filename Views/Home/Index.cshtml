@@ -1,0 +1,128 @@
+﻿@model U20431644_H05.Models.BookVM
+<div class="text-center">
+    <h1 class="display-4">Books</h1>
+
+    @if (@Model.booklist == null)
+    { 
+        <p>No books</p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                @Html.TextBox("SearchBookName")
+            </div>
+            <div class="col">
+                @Html.TextBox("Type")
+            </div>
+            <div class="col">
+                @Html.TextBox("test")@*Should be a dropdown*@
+            </div>
+            <div class="col">
+                @Html.TextBox("test")@*Should be a dropdown*@
+            </div>
+            <div class="col">
+                <button>Search</button>
+            </div>
+            <div class="col">
+                <button>Clear</button>
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Page Count
+                </th>
+                <th>
+                    Points
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            
+            @foreach (var bookVM in Model.booklist)
+            {
+                <tr>
+                    <td>
+                        @bookVM.BookID
+                    </td>
+                    <td>
+                        @bookVM.Title
+                        @*@Html.DisplayFor(modelItem => book.Title)*@
+                    </td>
+                    <td>
+                        @{
+                            var authorID = @bookVM.AuthorID;
+                        }
+                        @*ID = @bookVM.AuthorID ||*@
+                        @Model.authorList[authorID-1].Asurname
+                        @*get name from ID in another class*@
+                    </td>
+                    <td>
+                        @{
+                            var type = bookVM.typeID;
+                        }
+                        @*@bookVM.typeID;*@
+                        @Model.typeList[type-1].typename
+                        
+                    </td>
+                    <td>
+                        @bookVM.Pagecnt
+                    </td>
+                    <td>
+                        @bookVM.point
+                    </td>
+                    <td>
+                        @{
+                            var bookid = bookVM.BookID;
+                            var Available = "";
+                            var NA = "";
+                        }
+                        @*@Model.borrowList[bookid].broughtDate*@
+                        @if (DateTime.Now <= @Model.borrowList[bookid].broughtDate && DateTime.Now>Model.borrowList[bookid].takendate){
+                            Available = "OUT";
+                            <div style="color:red; font-weight:bold">
+                                @Available
+                            </div>
+                        }
+                        else
+                        {
+                            NA = "Available";
+                            <div style="color:green; font-weight:bold">
+                                @NA
+                            </div>
+                        }
+
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("View","BookDetails","Home", new {BookID = bookVM.BookID} )
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+</div>
+
+
+

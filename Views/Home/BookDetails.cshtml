@@ -1,0 +1,119 @@
+﻿@model U20431644_H05.Models.BookVM
+<div class="text-center">
+    <h1 class="display-4">Books</h1>
+        @{
+            var passedID = @ViewBag.Title-1;
+        }
+    @if (@Model.booklist == null)
+    {
+        <p>No books</p>
+    }
+    else
+    {
+        <div class="row" style="font-size:x-large;">
+            @Model.booklist[passedID].Title -  
+            @{
+                var bookid = Model.booklist[passedID].BookID; //Model booklist[bookID].bookID or title etc.
+                var Available = "";
+                var NA = "";
+                //var bookdate = Model.borrowList.Where(x => x.bookID == passedID).Select(y => y.borrowID).ToList();
+            }
+            @*@Model.borrowList[bookid].broughtDate*@
+            @if (DateTime.Now <= @Model.borrowList[bookid].broughtDate && DateTime.Now > Model.borrowList[bookid].takendate)
+            {
+                Available = "  OUT";
+                <div style="color:red; font-weight:bold">
+                    @Available
+                </div>
+            }
+            else
+            {
+                NA = "  Available";
+                <div style="color:green; font-weight:bold">
+                    @NA
+                </div>
+            }
+
+            @*Test to get the borrowID based on BookID*@
+           
+        </div>
+        <table class="table">
+            <tr>
+                
+                @{
+                    var borrows = Model.borrowList.Where(x => x.bookID == passedID + 1);
+                    int count = borrows.Count();
+                }
+                # Borrows - @count
+            </tr>
+            <tr>
+                <th>
+                    #BorrowID
+                </th>
+                <th>
+                    Taken Date
+                </th>
+                <th>
+                    Brought Date
+                </th>
+                <th>
+                    Borrowed By
+                </th>
+
+            </tr>
+
+            <tr>
+                <td>
+                    @{
+                        var borrowID = Model.borrowList.Where(x => x.bookID == passedID+1);
+                        //Console.WriteLine(borrowID);
+
+                        foreach (var borrowed in borrowID.Reverse())
+                        {
+                                        <p>@borrowed.borrowID</p>
+                    }
+                    }
+                </td>
+                    <td>
+                    @{
+                        var borrowoutdate = Model.borrowList.Where(x => x.bookID == passedID + 1);
+                        
+                        foreach (var borrowed in borrowoutdate.Reverse())
+                        {
+                                        <p>@borrowed.takendate</p>
+                        }
+                    }
+                    </td>
+                    <td>
+                        @{
+                        var returnDate = Model.borrowList.Where(x => x.bookID == passedID + 1);
+
+                        foreach (var borrowed in returnDate.Reverse())
+                            {
+                                            <p>@borrowed.broughtDate</p>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                        var borrowedBy = Model.borrowList.Where(x => x.bookID == passedID + 1);
+                        int studentID=0;
+                        foreach (var borrowed in borrowedBy.Reverse())
+                        {
+                            //<p>@borrowed.StudentID</p>
+                            studentID = borrowed.StudentID;
+                            var borrowname = Model.studentList.Where(x => x.StudentId == studentID);
+                            foreach (var name in borrowname){
+                                            <p>@name.Name @name.Surname</p>
+                            }
+                        }
+                        }
+                    </td>
+                </tr>
+        </table>
+
+    }
+</div>
+
+
+

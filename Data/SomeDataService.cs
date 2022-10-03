@@ -228,49 +228,7 @@ namespace U20431644_H05.Data
             return borrows;
         }
 
-        public List<CourseAssignmentsMarking> getAssignmentsOfCourse(int courseID)
-        {
-            List<CourseAssignmentsMarking> assignments = new List<CourseAssignmentsMarking>();
-            try
-            {
-                myConnection.Open();
-                SqlCommand myselect = new SqlCommand("Select CM.ID, CM.CourseID, CM.MarkerID, CM.StudentID, C.Name AS CNAME, " +
-                "C.Description AS Cdescription, S.Name AS StudentName, ST.Name AS StaffName FROM CourseAssignmentsMarking CM " +
-                "JOIN Courses C ON CM.CourseID = C.ID " +
-                "JOIN Students S ON CM.StudentID = S.ID " +
-                "JOIN Staff ST ON CM.MarkerID = ST.ID " +
-                "WHERE CM.CourseID=" + courseID, myConnection);
-                Console.WriteLine(myselect.ToString());
-                SqlDataReader myReader = myselect.ExecuteReader();
-                while (myReader.Read())
-                {
-                    Console.WriteLine("HH");
-                    CourseAssignmentsMarking courseAssignmentsMarking = new()
-                    {
-                        AssignmentID = (int)myReader["ID"],
-                        CourseID = (int)myReader["CourseID"],
-                        MarkerID = (int)myReader["MarkerID"],
-                        MarkerName = (string)myReader["StaffName"],
-                        StudentID = (int)myReader["StudentID"],
-                        StudentName = (string)myReader["StudentName"],
-                        CourseName = (string)myReader["CNAME"],
-                        Description = (string)myReader["Cdescription"]
-                    };
-                    assignments.Add(courseAssignmentsMarking);
-                    //Console.WriteLine(course.ID.ToString(), course.Name, course.Description);
-                    Console.WriteLine(courseAssignmentsMarking);
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                myConnection.Close();
-            }
-            return assignments;
-            }
+        
 
 
     }

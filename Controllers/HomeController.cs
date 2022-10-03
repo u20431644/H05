@@ -35,16 +35,24 @@ namespace U20431644_H05.Controllers
             return View(bookVM);
         }
 
-        public ActionResult ViewCourse(int courseID)
-        {
-            List<CourseAssignmentsMarking> courseAssignmnts = dataService.getAssignmentsOfCourse(courseID);
-            return View(courseAssignmnts);
-        }
 
         public IActionResult Students()
         {
+            List<book> books = dataService.GetBooks();
+            List<author> authors = dataService.GetAuthors();
+            List<type> types = dataService.GetTypes();
+            List<borrow> borrows = dataService.GetBorrows();
             List<Students> students = dataService.getStudents();
-            return View(students);
+            BookVM bookVM = new BookVM()
+            {
+                booklist = books,
+                authorList = authors,
+                typeList = types,
+                borrowList = borrows,
+                studentList = students
+            };
+            ViewBag.Message = bookVM;
+            return View(bookVM);
         }
 
         public ActionResult BookDetails(int BookID)

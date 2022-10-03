@@ -1,58 +1,95 @@
-﻿@model IEnumerable<U20431644_H05.Models.Students>
-@{
-    ViewData["Title"] = "Students";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>Students</h1>
-
+﻿@model U20431644_H05.Models.BookVM
 <div class="text-center">
-    <h1 class="display-4">Courses</h1>
+    <h1 class="display-4">Students</h1>
 
-    @if (@Model.Count() == 0)
+    @if (@Model.booklist == null)
     {
-        <p>No Courses</p>
+        <p>No books</p>
     }
     else
     {
-        @* <ul class="list-group">
-    <li class="list-group-item">
-    @foreach (var students in Model)
-    {
-    <div class="card mb-3">
-    <div class="card-body">
-    <h5 class="card-title">"Student name "@students.Name</h5>
-    <p class="card-text">@students.StudentId</p>
-    @* @Html.ActionLink("View assignments", "ViewCourse", "Home", new { courseID = @course.ID } , new { @class = "btn btn-primary" })
-    </div>
-    </div>
-    }
-    </li>
-    </ul>*@
+        <div class="row" style="margin-bottom:5px">
+            <div class="col-3">
+                <input type="text" id="nameinput" aria-describedby="Book title" placeholder="Search Student name">
+            </div>
 
-        <table class="table">
+            <select id="class" class="col-2" style="margin-right:5px">
+                <option value="" selected>Select a Class</option>
+                <option id=9A>9A</option>
+                <option id=9B>9B</option>
+                <option id=9C>9C</option>
+                <option id=9D>9D</option>
+                <option id=9E>9E</option>
+                <option id=10A>10A</option>
+                <option id=10B>10B</option>
+                <option id=10C>10C</option>
+                <option id=10D>10D</option>
+                <option id=10E>10E</option>
+                <option id=11A>11A</option>
+                <option id=11B>11B</option>
+                <option id=11C>11C</option>
+                <option id=11D>11D</option>
+                <option id=11E>11E</option>
+                <option id=12A>12A</option>
+                <option id=12B>12B</option>
+                <option id=12C>12C</option>
+                <option id=12D>12D</option>
+                <option id=12E>12E</option>
+
+            </select>
+
+            <div class="col-2">
+                <button onclick="searchtable()" class="btn btn-success">Search</button>
+            </div>
+            <div class="col-2">
+                <button onclick="cleartable()" class="btn btn-danger">Clear</button>
+            </div>
+
+        </div>
+        <table class="table" id="table">
             <tr>
                 <th>
-                    Students
+                    #
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Class
+                </th>
+                <th>
+                    Points
+                </th>
+                <th>
+                    Borrow Book
                 </th>
             </tr>
-            @foreach (var students in Model)
+
+            @foreach (var bookVM in Model.studentList)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => students.Name)
+                        @bookVM.StudentId
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => students.Surname)
+                        @bookVM.Name
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => students.Sclass)
+                       @bookVM.Surname
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => students.point)
+                        @bookVM.Sclass
+
                     </td>
                     <td>
-                        <button>Borrow Book</button>
+                        @bookVM.point
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("View","BookDetails","Home", new {BookID = bookVM} )
                     </td>
                 </tr>
             }
@@ -60,6 +97,64 @@
 
     }
 </div>
+<script>
+    function searchtable() {
 
+        var input, filter, table, tr, td, i, txtValue, classname, type, colnum, title;
+        //get inputs
+        title = document.getElementById("nameinput").value;
+        console.log(title);
+        classname = document.getElementById("class").value;
+        console.log(classname);
+        //check which inputs are empty
+        if (title != "") {
+            colnum = 1;
+            input = title;
+        }
+        else
+            if (classname != "") {
+                colnum = 3;
+                input = classname;
+            }
+
+        filter = input.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) { //number of rows
+            td = tr[i].getElementsByTagName("td")[colnum]; //column 1
+            if (td) {
+                txtValue = td.textContent || td.innerText; //get the value of the data in the table
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function cleartable() {
+        title = document.getElementById("nameinput").value="";
+        console.log(title);
+        classname = document.getElementById("class").value="";
+        console.log(classname);
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("nameinput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 
 

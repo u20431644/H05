@@ -8,27 +8,112 @@
     }
     else
     {
-        <div class="row">
-            <div class="col">
-                @Html.TextBox("SearchBookName")
+        <div class="row" style="margin-bottom:5px">
+            <div class="col-3">
+                <input type="text" id="titleinput" aria-describedby="Book title" placeholder="Search book title">
             </div>
-            <div class="col">
-                @Html.TextBox("Type")
+
+            <select id="type" class="col-2" style="margin-right:5px">
+                <option value="" selected>Select a type</option>
+                <option id="Guide">
+                    Action and Adventure
+                </option>
+                <option id="Art">
+                    Art
+                </option>
+                <option id="Biographies">
+                    Biographies
+                </option>
+                <option id="Diaries">
+                    Diaries
+                </option>
+                <option id="Drama">
+                    Drama
+                </option>
+                <option id="Fantasy">
+                    Fantasy
+                </option>
+                <option id="Guide">
+                    Guide
+                </option>
+                <option id="Health">
+                    Health
+                </option>
+                <option id="History">
+                    History
+                </option>
+                <option id="Horror">
+                    Horror
+                </option>
+                <option id="Journals">
+                    Journals
+                </option>
+                <option id="Mystery">
+                    Mystery
+                </option>
+                <option id="Romance">
+                    Romance
+                </option>
+                <option id="Satire">
+                    Satire
+                </option>
+                <option id="Science">
+                    Science
+
+                </option>
+                <option id="Sciencefiction">
+                    Science fiction
+                </option>
+            </select>
+
+            <select id="author" class="col-2" style="margin-right:5px">
+                <option value="" selected>Select an Author</option>
+                <option id="Abbott">Abbott</option>
+                <option id="Asimov">Asimov</option>
+                <option id="Blaisdell">Blaisdell</option>
+                <option id="Boccaccio">Boccaccio</option>
+                <option id="Brown">Brown</option>
+                <option id="Butler">Butler</option>
+                <option id="Canfield">Canfield</option>
+                <option id="Dickens">Dickens</option>
+                <option id="Dickinson">Dickinson</option>
+                <option id="DosPassos">DosPassos</option>
+                <option id="Dostoevsky">Dostoevsky</option>
+                <option id="Dowson">Dowson</option>
+                <option id="Edwards">Edwards</option>
+                <option id="Eliot">Eliot</option>
+                <option id="Emerson">Emerson</option>
+                <option id="Ferber">Ferber</option>
+                <option id="Foote">Foote</option>
+                <option id="Goose">Goose</option>
+                <option id="Grey">Grey</option>
+                <option id="Howells">Howells</option>
+                <option id="Lampton">Lampton</option>
+                <option id="LeFanu">LeFanu</option>
+                <option id="London">London</option>
+                <option id="Lovecraft">Lovecraft</option>
+                <option id="Lucretius">Lucretius</option>
+                <option id="Machen">Machen</option>
+                <option id="Nabokov">Nabokov</option>
+                <option id="Orwell">Orwell</option>
+                <option id="Ovid">Ovid</option>
+                <option id="Pepys">Pepys</option>
+                <option id="Spyri">Spyri</option>
+                <option id="Stevenson">Stevenson</option>
+                <option id="Stuart">Stuart</option>
+                <option id="Sweetser">Sweetser</option>
+                <option id="Tagore">Tagore</option>
+                <option id="Woolf">Woolf</option>
+            </select>
+            <div class="col-2">
+                <button onclick="searchtable()" class="btn btn-success">Search</button>
             </div>
-            <div class="col">
-                @Html.TextBox("test")@*Should be a dropdown*@
+            <div class="col-2">
+                <button onclick="cleartable()" class="btn btn-danger">Clear</button>
             </div>
-            <div class="col">
-                @Html.TextBox("test")@*Should be a dropdown*@
-            </div>
-            <div class="col">
-                <button>Search</button>
-            </div>
-            <div class="col">
-                <button>Clear</button>
-            </div>
+                
         </div>
-        <table class="table">
+        <table class="table" id="table">
             <tr>
                 <th>
                     #
@@ -123,6 +208,73 @@
 
     }
 </div>
+<script>
+    function searchtable(){
+        
+        var input, filter, table, tr, td, i, txtValue, authorName, type, colnum, title;
+        //get inputs
+        title = document.getElementById("titleinput").value;
+        console.log(title);
+        authorName = document.getElementById("author").value;
+        console.log(authorName);
+        type = document.getElementById("type").value;
+        console.log(type);
+        //check which inputs are empty
+        if (title !=""){
+            colnum = 1;
+            input=title;
+        }
+        else
+        if (authorName!=""){
+            colnum = 2;
+            input=authorName;
+        }
+        else
+        if (type!=""){
+            colnum=3;
+            input=type;
+        }
+        filter = input.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) { //number of rows
+            td = tr[i].getElementsByTagName("td")[colnum]; //column 1
+            if (td) {
+                txtValue = td.textContent || td.innerText; //get the value of the data in the table
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
 
+    function cleartable(){
+        title = document.getElementById("titleinput").value="";
+        console.log(title);
+        authorName = document.getElementById("author").value="";
+        console.log(authorName);
+        type = document.getElementById("type").value="";
+        console.log(type);
+        document.getElementById("titleinput").value="";
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("titleinput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 
 

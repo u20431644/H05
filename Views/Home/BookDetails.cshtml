@@ -71,13 +71,13 @@
                         foreach (var borrowed in borrowID.Reverse())
                         {
                                         <p>@borrowed.borrowID</p>
-                    }
+                        }
                     }
                 </td>
                     <td>
                     @{
                         var borrowoutdate = Model.borrowList.Where(x => x.bookID == passedID + 1);
-                        
+
                         foreach (var borrowed in borrowoutdate.Reverse())
                         {
                                         <p>@borrowed.takendate</p>
@@ -95,7 +95,7 @@
                         }
                     </td>
                     <td>
-                        @{
+                    @{
                         var borrowedBy = Model.borrowList.Where(x => x.bookID == passedID + 1);
                         int studentID=0;
                         foreach (var borrowed in borrowedBy.Reverse())
@@ -107,7 +107,7 @@
                                             <p>@name.Name @name.Surname</p>
                             }
                         }
-                        }
+                    }
                     </td>
                 </tr>
         </table>
